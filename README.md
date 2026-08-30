@@ -1,36 +1,55 @@
 # Deploy-application-using-CI-CD-Freestyle-application-with-5-Stages-
 
 my pipline is : 
+
 stage 1 for git code 
+
 stage 2 for build code 
+
 stage3 for create image 
+
 stage 4 for upload image to docker hub repo 
+
 stage 5  deploy to K&8s  
-steps : 
-1- install manulaaly jenkins on the same VM of master node 
-2-we have kubernates kubadm using three nodes 1 for master and tow workers  
-3- open jenkins url  http://192.168.142.159:8080/ 
-4- prpare the jenkins plugin install kubernates API plugin ...... etc 
-5- create credentials for kubernates using token key to allow jenkins to deploy app on the kubenbtaes environment  .: 
-on master node run : 
+
+## steps : 
+
+1-Install Jenkins manually on the same VM as the Kubernetes master node.
+
+Prepare the Kubernetes cluster using kubeadm, with:
+
+1 Master node
+
+2 Worker nodes
+
+3- Access the Jenkins Web UI using: http://192.168.142.159:8080/
+
+4- Install and configure the required Jenkins plugins, including the Kubernetes API Plugin and other required plugins for Kubernetes integration.
+
+5-Create Kubernetes credentials in Jenkins using a Kubernetes Service Account token/key. These credentials allow Jenkins to authenticate with the Kubernetes cluster and deploy applications directly to the Kubernetes environment.
+
+6- on master node run : 
+
 [root@master01 lib]# kubectl get secret $SECRET -n jenkins -o jsonpath='{.data.token}' | base64 --decode
 
+
 [root@master01 lib]# SECRET=$(kubectl get serviceaccount jenkins-sa -n jenkins -o jsonpath='{.secrets[0].name}')
+
 kubectl get secret $SECRET -n jenkins -o jsonpath='{.data.token}' | base64 --decode
 
 [root@master01 lib]# kubectl create token jenkins-sa -n jenkins
 
 <img width="1640" height="138" alt="image" src="https://github.com/user-attachments/assets/c806ef9d-295b-4199-82f8-c07b1706163e" />
 
-add on the crdentials jenkins : 
+7- Add the Kubernetes credentials in Jenkins → Manage Jenkins → Credentials.
 
 <img width="1718" height="747" alt="image" src="https://github.com/user-attachments/assets/18c4ce67-cc70-45a6-b5ea-18152698d578" />
 
-6- create also credential for docker hub login using secret txt as below : 
+8- Create Docker Hub credentials in Jenkins:
 
 <img width="1920" height="1040" alt="image" src="https://github.com/user-attachments/assets/505453aa-38c3-40a4-a06f-79f98b541d99" />
 
-7- start to build stages as belwo : 
+7- Start building the Jenkins pipeline stages as follows:
 
 ## Stage 1 using for git code from source repo  :
 
@@ -58,11 +77,11 @@ add on the crdentials jenkins :
 
 <img width="1712" height="957" alt="image" src="https://github.com/user-attachments/assets/7b3eb5c3-4567-4ec0-83cf-e9af98c624e6" />
 
-and finally start pipline : 
+## and finally start pipline : 
 
 <img width="1891" height="722" alt="image" src="https://github.com/user-attachments/assets/4fc8b5b0-7670-4549-a174-cd8f678fabc4" />
 
-test environment  
+## test environment  
 
 <img width="752" height="377" alt="image" src="https://github.com/user-attachments/assets/85bd35c2-ecd3-4d54-8d73-9eadc8f53dd0" />
 
